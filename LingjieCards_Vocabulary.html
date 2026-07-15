@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LingjieCards</title>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:linear-gradient(135deg,#74b9ff,#a29bfe);display:flex;justify-content:center;align-items:center;height:100vh}
+.wrap{width:390px}
+h1{text-align:center;color:#fff}
+.card{background:#fff;border-radius:18px;padding:50px 20px;text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.2);cursor:pointer}
+.word{font-size:34px;font-weight:bold}
+.pinyin{color:#666;margin:8px 0}
+.example{margin-top:15px;color:#333;font-size:15px}
+.controls{text-align:center;margin-top:15px}
+button{padding:10px 15px;margin:5px;border:none;border-radius:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>📚 LingjieCards</h1>
+<div class="card" onclick="flip()">
+<div id="word" class="word"></div>
+<div id="pinyin" class="pinyin"></div>
+<div id="meaning"></div>
+<div id="example" class="example"></div>
+</div>
+<div class="controls">
+<button onclick="prev()">⬅️</button>
+<button onclick="next()">➡️</button>
+<button onclick="randomCard()">🎲</button>
+</div>
+</div>
+<script>
+const cards=[
+["hình tam giác","三角形","sān jiǎo xíng","Bàn có hình tam giác.","桌子是三角形的。"],
+["đồng hồ","手表","shǒu biǎo","Đây là đồng hồ của tôi.","这是我的手表。"],
+["tay","手","shǒu","Giơ tay lên.","请举手。"],
+["một chùm nho","一串葡萄","yí chuàn pú tao","Tôi mua một chùm nho.","我买了一串葡萄。"],
+["nướng","烤","kǎo","Chúng ta nướng thịt.","我们烤肉。"],
+["thịt nướng","烤肉","kǎo ròu","Tôi thích ăn thịt nướng.","我喜欢吃烤肉。"],
+["hấp","蒸","zhēng","Cá được hấp.","鱼是蒸的。"],
+["xào","炒","chǎo","Mẹ đang xào rau.","妈妈在炒菜。"],
+["luộc","煮","zhǔ","Đang luộc trứng.","正在煮鸡蛋。"],
+["thịt gà","鸡肉","jī ròu","Tôi thích thịt gà.","我喜欢鸡肉。"],
+["thịt bò","牛肉","niú ròu","Bò rất ngon.","牛肉很好吃。"],
+["thịt cá","鱼肉","yú ròu","Ăn nhiều thịt cá.","多吃鱼肉。"],
+["tôm","虾肉","xiā ròu","Tôm rất tươi.","虾很新鲜。"],
+["khuôn mặt","脸","liǎn","Cô ấy có khuôn mặt đẹp.","她的脸很漂亮。"],
+["mắt","眼睛","yǎn jing","Mắt tôi đau.","我的眼睛疼。"],
+["mũi","鼻子","bí zi","Tôi bị nghẹt mũi.","我鼻塞了。"],
+["miệng","嘴巴","zuǐ ba","Há miệng ra.","张开嘴巴。"],
+["tai","耳朵","ěr duo","Tai nghe rất rõ.","耳朵听得很清楚。"],
+["hôn nhân","婚姻","hūn yīn","Hôn nhân hạnh phúc.","婚姻幸福。"],
+["kết hôn","结婚","jié hūn","Họ sắp kết hôn.","他们快结婚了。"],
+["ly hôn","离婚","lí hūn","Hai người đã ly hôn.","两个人离婚了。"],
+["tái hôn","再婚","zài hūn","Ông ấy tái hôn.","他再婚了。"],
+["cãi nhau","吵架","chǎo jià","Đừng cãi nhau.","别吵架。"],
+["phàn nàn","抱怨","bào yuàn","Đừng phàn nàn.","不要抱怨。"],
+["tương kính như tân","相敬如宾","xiāng jìng rú bīn","Họ sống tương kính như tân.","他们相敬如宾。"],
+["ân ái","恩爱","ēn ài","Hai vợ chồng rất ân ái.","夫妻很恩爱。"],
+["luân phiên","轮流","lún liú","Mọi người luân phiên phát biểu.","大家轮流发言。"],
+["giơ tay","举手","jǔ shǒu","Ai biết thì giơ tay.","会的人请举手。"],
+["mắng","骂","mà","Đừng mắng trẻ.","不要骂孩子。"],
+["mất kiên nhẫn","不耐烦","bù nài fán","Anh ấy bắt đầu mất kiên nhẫn.","他开始不耐烦了。"],
+["âm thầm quyết tâm","暗下决心","àn xià jué xīn","Cô ấy âm thầm quyết tâm học tốt.","她暗下决心好好学习。"]
+];
+let i=0,f=false;
+function render(){
+let c=cards[i];
+if(!f){
+word.textContent=c[0];pinyin.textContent="";meaning.textContent="";example.textContent="";
+}else{
+word.textContent=c[1];pinyin.textContent="拼音："+c[2];meaning.textContent="越南语："+c[0];example.textContent="例句："+c[3]+" / "+c[4];
+}}
+function flip(){f=!f;render()}
+function next(){i=(i+1)%cards.length;f=false;render()}
+function prev(){i=(i-1+cards.length)%cards.length;f=false;render()}
+function randomCard(){i=Math.floor(Math.random()*cards.length);f=false;render()}
+render();
+</script>
+</body></html>
