@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LingjieCards V1.0</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(135deg,#74b9ff,#a29bfe);display:flex;justify-content:center;align-items:center;height:100vh}
+.wrap{width:380px}.title{text-align:center;color:#fff;font-size:30px;font-weight:bold;margin-bottom:18px}
+.card{background:#fff;border-radius:22px;padding:50px 20px;box-shadow:0 12px 28px rgba(0,0,0,.2);text-align:center;cursor:pointer}
+.word{font-size:34px;font-weight:bold}.hint{margin-top:12px;color:#666}
+.ctrl{text-align:center;margin-top:16px}
+button{padding:10px 16px;border:none;border-radius:12px;margin:4px}
+</style></head>
+<body>
+<div class="wrap">
+<div class="title">📚 LingjieCards V1.0</div>
+<div class="card" onclick="flip()">
+<div id="word" class="word"></div>
+<div id="hint" class="hint"></div>
+</div>
+<div class="ctrl">
+<button onclick="prev()">⬅️</button>
+<button onclick="next()">➡️</button>
+<button onclick="rand()">🎲</button>
+</div>
+</div>
+<script>
+const cards=[
+["miêu tả","形容"],["đồng hồ đeo tay","手表"],["tay","手"],["hình tam giác","三角形"],
+["một chùm","一串"],["nho","葡萄"],["thịt nướng","烤肉"],["nướng","烤"],["hấp","蒸"],["xào","炒"],["luộc","煮"],
+["thịt gà","鸡肉"],["thịt bò","牛肉"],["thịt cá","鱼肉"],["tôm","虾肉"],["khuôn mặt","脸"],["mắt","眼睛"],
+["mũi","鼻子"],["miệng","嘴巴"],["tai","耳朵"],["hôn nhân","婚姻"],["kết hôn","结婚"],["ly hôn","离婚"],
+["tái hôn","再婚"],["cãi nhau","吵架"],["phàn nàn","抱怨"],["tương kính như tân","相敬如宾"],
+["ân ái","恩爱"],["luân phiên","轮流"],["giơ tay","举手"],["mắng","骂"],
+["mất kiên nhẫn","不耐烦"],["âm thầm quyết tâm","暗下决心"]
+];
+let i=0,front=true;
+function show(){document.getElementById('word').textContent=front?cards[i][0]:cards[i][1];
+document.getElementById('hint').textContent=front?'点击卡片查看中文':'点击卡片返回越南语';}
+function flip(){front=!front;show();}
+function next(){i=(i+1)%cards.length;front=true;show();}
+function prev(){i=(i-1+cards.length)%cards.length;front=true;show();}
+function rand(){i=Math.floor(Math.random()*cards.length);front=true;show();}
+show();
+</script></body></html>
