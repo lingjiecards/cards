@@ -1,0 +1,353 @@
+<!DOCTYPE html>  
+<html lang="zh-CN">  
+<head>  
+    <meta charset="UTF-8" />  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+    <title>**越南语单词卡** - **背中文**</title>  
+    <style>  
+        * {  
+            margin: 0;  
+            padding: 0;  
+            box-sizing: border-box;  
+        }  
+        body {  
+            font-family: 'Segoe UI', 'PingFang SC', Roboto, sans-serif;  
+            min-height: 100vh;  
+            background: linear-gradient(145deg, #f7f0fc 0%, #e9def5 100%);  
+            display: flex;  
+            justify-content: center;  
+            align-items: center;  
+            padding: 20px;  
+        }  
+        .container {  
+            width: 100%;  
+            max-width: 480px;  
+            background: rgba(255, 255, 255, 0.7);  
+            backdrop-filter: blur(12px);  
+            border-radius: 48px;  
+            padding: 30px 24px 40px;  
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);  
+            border: 1px solid rgba(255, 255, 255, 0.5);  
+            text-align: center;  
+        }  
+        .progress {  
+            font-size: 14px;  
+            color: #6b5b7b;  
+            font-weight: 500;  
+            letter-spacing: 0.5px;  
+            background: rgba(255, 255, 255, 0.5);  
+            padding: 6px 16px;  
+            border-radius: 40px;  
+            display: inline-block;  
+            margin-bottom: 20px;  
+        }  
+        .card-wrap {  
+            perspective: 1200px;  
+            margin: 10px 0 28px;  
+            cursor: pointer;  
+        }  
+        .card {  
+            position: relative;  
+            width: 100%;  
+            padding-bottom: 75%;  
+            transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);  
+            transform-style: preserve-3d;  
+        }  
+        .card.flipped {  
+            transform: rotateY(180deg);  
+        }  
+        .card-face {  
+            position: absolute;  
+            top: 0;  
+            left: 0;  
+            width: 100%;  
+            height: 100%;  
+            border-radius: 32px;  
+            backface-visibility: hidden;  
+            display: flex;  
+            flex-direction: column;  
+            justify-content: center;  
+            align-items: center;  
+            padding: 24px 20px;  
+            box-shadow: 0 12px 30px rgba(90, 60, 120, 0.15);  
+            border: 1px solid rgba(255, 255, 255, 0.6);  
+        }  
+        .card-front {  
+            background: linear-gradient(160deg, #ffffff 0%, #f5f0ff 100%);  
+            color: #2d1b3d;  
+        }  
+        .card-front .viet {  
+            font-size: 38px;  
+            font-weight: 700;  
+            letter-spacing: 1px;  
+            color: #3d2a5c;  
+            margin-bottom: 12px;  
+            word-break: break-word;  
+        }  
+        .card-front .hint {  
+            font-size: 15px;  
+            color: #8a7a9a;  
+            background: rgba(200, 180, 220, 0.25);  
+            padding: 6px 20px;  
+            border-radius: 40px;  
+            margin-top: 6px;  
+        }  
+        .card-back {  
+            background: linear-gradient(160deg, #3d2a5c 0%, #281b3a 100%);  
+            color: #f2ebf9;  
+            transform: rotateY(180deg);  
+        }  
+        .card-back .zh {  
+            font-size: 42px;  
+            font-weight: 700;  
+            letter-spacing: 2px;  
+            word-break: break-word;  
+            line-height: 1.3;  
+        }  
+        .card-back .extra {  
+            font-size: 16px;  
+            color: #cbb8e0;  
+            margin-top: 12px;  
+            background: rgba(255, 255, 255, 0.08);  
+            padding: 4px 18px;  
+            border-radius: 30px;  
+        }  
+        .nav-buttons {  
+            display: flex;  
+            gap: 14px;  
+            justify-content: center;  
+            margin: 10px 0 18px;  
+        }  
+        .nav-buttons button {  
+            background: rgba(255, 255, 255, 0.7);  
+            border: none;  
+            width: 58px;  
+            height: 58px;  
+            border-radius: 40px;  
+            font-size: 24px;  
+            color: #3d2a5c;  
+            box-shadow: 0 6px 14px rgba(90, 60, 120, 0.12);  
+            transition: all 0.2s;  
+            backdrop-filter: blur(4px);  
+            border: 1px solid rgba(255, 255, 255, 0.5);  
+            cursor: pointer;  
+            font-weight: 500;  
+        }  
+        .nav-buttons button:hover {  
+            background: #ffffff;  
+            transform: scale(1.05);  
+            box-shadow: 0 10px 22px rgba(90, 60, 120, 0.18);  
+        }  
+        .nav-buttons button:active {  
+            transform: scale(0.94);  
+        }  
+        .random-btn {  
+            background: rgba(255, 255, 255, 0.6);  
+            border: 1px solid rgba(255, 255, 255, 0.5);  
+            color: #3d2a5c;  
+            padding: 10px 32px;  
+            border-radius: 60px;  
+            font-size: 16px;  
+            font-weight: 600;  
+            backdrop-filter: blur(4px);  
+            cursor: pointer;  
+            transition: all 0.2s;  
+            box-shadow: 0 4px 12px rgba(90, 60, 120, 0.08);  
+            letter-spacing: 0.5px;  
+            margin-top: 4px;  
+        }  
+        .random-btn:hover {  
+            background: #ffffff;  
+            transform: scale(1.02);  
+            box-shadow: 0 8px 20px rgba(90, 60, 120, 0.15);  
+        }  
+        .random-btn:active {  
+            transform: scale(0.96);  
+        }  
+        .footer {  
+            margin-top: 20px;  
+            font-size: 13px;  
+            color: #9b8aaa;  
+            letter-spacing: 0.3px;  
+        }  
+        .footer span {  
+            background: rgba(255, 255, 255, 0.3);  
+            padding: 2px 14px;  
+            border-radius: 30px;  
+        }  
+        @media (max-width: 420px) {  
+            .container {  
+                padding: 20px 14px 30px;  
+                border-radius: 32px;  
+            }  
+            .card-front .viet {  
+                font-size: 30px;  
+            }  
+            .card-back .zh {  
+                font-size: 34px;  
+            }  
+            .nav-buttons button {  
+                width: 50px;  
+                height: 50px;  
+                font-size: 20px;  
+            }  
+        }  
+    </style>  
+</head>  
+<body>  
+  
+<div class="container">  
+    <div class="progress" id="progressDisplay">1 / 44</div>  
+  
+    <div class="card-wrap" id="cardWrap">  
+        <div class="card" id="card">  
+            <div class="card-face card-front">  
+                <div class="viet" id="vietWord">khuôn mặt</div>  
+                <div class="hint">👆 **点击翻转**</div>  
+            </div>  
+            <div class="card-face card-back">  
+                <div class="zh" id="zhWord">**脸**</div>  
+                <div class="extra" id="extraInfo"></div>  
+            </div>  
+        </div>  
+    </div>  
+  
+    <div class="nav-buttons">  
+        <button id="prevBtn">‹</button>  
+        <button id="nextBtn">›</button>  
+    </div>  
+  
+    <button class="random-btn" id="randomBtn">🎲 **随机一张**</button>  
+    <div class="footer"><span>🇻🇳 **越南语** → **中文** 🇨🇳</span></div>  
+</div>  
+  
+<script>  
+    // ============ **单词数据** ============  
+    const words = **[**  
+        { viet: "khuôn mặt", zh: "**脸**" },  
+        { viet: "mắt", zh: "**眼睛**" },  
+        { viet: "mũi", zh: "**鼻子**" },  
+        { viet: "miệng", zh: "**嘴巴**" },  
+        { viet: "tai", zh: "**耳朵**" },  
+        { viet: "tay", zh: "**手**" },  
+  
+        { viet: "thịt gà", zh: "**鸡肉**" },  
+        { viet: "thịt bò", zh: "**牛肉**" },  
+        { viet: "thịt cá", zh: "**鱼肉**" },  
+        { viet: "tôm", zh: "**虾肉**" },  
+        { viet: "nho", zh: "**葡萄**" },  
+        { viet: "một chuỗi nho", zh: "**一串葡萄**" },  
+        { viet: "nướng", zh: "**烤**" },  
+        { viet: "hấp", zh: "**蒸**" },  
+        { viet: "xào", zh: "**炒**" },  
+        { viet: "luộc", zh: "**煮**" },  
+  
+        { viet: "giơ tay", zh: "**举手**" },  
+        { viet: "chửi", zh: "**骂**" },  
+        { viet: "cãi nhau", zh: "**吵架**" },  
+        { viet: "phàn nàn", zh: "**抱怨**" },  
+        { viet: "lần lượt", zh: "**轮流**" },  
+  
+        { viet: "hôn nhân", zh: "**婚姻**" },  
+        { viet: "kết hôn", zh: "**结婚**" },  
+        { viet: "ly hôn", zh: "**离婚**" },  
+        { viet: "tái hôn", zh: "**再婚**" },  
+        { viet: "mẫu mực", zh: "**相敬如宾**" },  
+        { viet: "ân ái", zh: "**恩爱**" },  
+  
+        { viet: "đồng hồ", zh: "**手表**" },  
+        { viet: "tam giác", zh: "**三角形**" },  
+        { viet: "thiếu kiên nhẫn", zh: "**不耐烦**" },  
+        { viet: "thầm quyết tâm", zh: "**暗下决心**" },  
+        // **额外补充几个常见的让你词汇量更丰富**  
+        { viet: "ly hôn", zh: "**离婚**" },  
+        { viet: "tái hôn", zh: "**再婚**" },  
+        { viet: "cãi nhau", zh: "**吵架**" },  
+        { viet: "phàn nàn", zh: "**抱怨**" }  
+    **]**;  
+  
+    // **去重（防止手动录入重复）**  
+    const uniqueMap = new Map();  
+    words.forEach(w => {  
+        const key = w.viet + '|' + w.zh;  
+        if (!uniqueMap.has(key)) {  
+            uniqueMap.set(key, w);  
+        }  
+    });  
+    const wordList = Array.from(uniqueMap.values());  
+    // **如果还有重复的越南语词不同中文，保留；这里不额外处理**  
+  
+    let currentIndex = 0;  
+    let isFlipped = false;  
+  
+    const card = document.getElementById('card');  
+    const cardWrap = document.getElementById('cardWrap');  
+    const vietWord = document.getElementById('vietWord');  
+    const zhWord = document.getElementById('zhWord');  
+    const progressDisplay = document.getElementById('progressDisplay');  
+    const extraInfo = document.getElementById('extraInfo');  
+  
+    function updateCard(index) {  
+        const data = wordList**[**index**]**;  
+        if (!data) return;  
+        vietWord.textContent = data.viet;  
+        zhWord.textContent = data.zh;  
+        // **额外信息可以留空或放分类标签**  
+        extraInfo.textContent = '';  
+        // **如果卡片是翻转状态，翻回正面**  
+        if (isFlipped) {  
+            card.classList.remove('flipped');  
+            isFlipped = false;  
+        }  
+        progressDisplay.textContent = `${index + 1} / ${wordList.length}`;  
+    }  
+  
+    function flipCard() {  
+        card.classList.toggle('flipped');  
+        isFlipped = !isFlipped;  
+    }  
+  
+    function nextCard() {  
+        if (wordList.length === 0) return;  
+        currentIndex = (currentIndex + 1) % wordList.length;  
+        updateCard(currentIndex);  
+    }  
+  
+    function prevCard() {  
+        if (wordList.length === 0) return;  
+        currentIndex = (currentIndex - 1 + wordList.length) % wordList.length;  
+        updateCard(currentIndex);  
+    }  
+  
+    function randomCard() {  
+        if (wordList.length === 0) return;  
+        let newIndex;  
+        do {  
+            newIndex = Math.floor(Math.random() * wordList.length);  
+        } while (wordList.length > 1 && newIndex === currentIndex);  
+        currentIndex = newIndex;  
+        updateCard(currentIndex);  
+    }  
+  
+    // **事件绑定**  
+    cardWrap.addEventListener('click', flipCard);  
+    document.getElementById('nextBtn').addEventListener('click', nextCard);  
+    document.getElementById('prevBtn').addEventListener('click', prevCard);  
+    document.getElementById('randomBtn').addEventListener('click', randomCard);  
+  
+    // **键盘支持（左右箭头）**  
+    document.addEventListener('keydown', (e) => {  
+        if (e.key === 'ArrowLeft') { e.preventDefault();  
+            prevCard(); }  
+        if (e.key === 'ArrowRight') { e.preventDefault();  
+            nextCard(); }  
+        if (e.key === ' ' || e.key === 'Space') { e.preventDefault();  
+            flipCard(); }  
+    });  
+  
+    // **初始化**  
+    updateCard(0);  
+</script>  
+  
+</body>  
+</html>  
